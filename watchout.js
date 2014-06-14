@@ -33,10 +33,8 @@ var board = d3.select('body')
 
 
 var update = function(coords)   {
-  board.selectAll('circle')
-    .data(coords)
-    .enter()
-    .append('circle')
+  var enemies = board.selectAll('circle').data(coords)
+  enemies.enter().append('circle')
     .attr('cx', function(d) {
       return d.x;
     })
