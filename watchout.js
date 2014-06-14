@@ -37,7 +37,7 @@ var _getNewPoints = function(numPoints) {
 var updateDots = function(coords)   {
   coords = coords || _getNewPoints();
   // BIND DATA
-  var enemies = board.selectAll('circle').data(coords);
+  var enemies = board.selectAll('circle.enemy').data(coords);
 
   // UPDATE
   enemies.attr('cx', function(d) {
@@ -45,8 +45,7 @@ var updateDots = function(coords)   {
     })
     .attr('cy', function(d) {
       return d.y;
-    })
-    .attr('r', 10);
+    });
 
   // ENTER
   enemies.enter().append('circle')
@@ -56,12 +55,23 @@ var updateDots = function(coords)   {
     .attr('cy', function(d) {
       return d.y;
     })
-    .attr('r', 10);
+    .attr('r', 10)
+    .attr('fill', 'blue')
+    .attr('class', 'enemy');
+
   // debugger;
   setTimeout(updateDots, 1000);
 };
 
 updateDots();
+
+var player = board.append('circle')
+  .attr('fill', 'red')
+  .attr('class', 'playerDot')
+  .attr('cx', Math.random() * window.innerWidth)
+  .attr('cy', Math.random() * window.innerHeight)
+  .attr('r', 10);
+
 
 
 
