@@ -34,8 +34,8 @@ var _getNewPoints = function(numPoints) {
 };
 
 
-var update = function()   {
-  var coords = _getNewPoints();
+var update = function(coords)   {
+  coords = coords || _getNewPoints();
   var enemies = board.selectAll('circle').data(coords)
   enemies.enter().append('circle')
     .attr('cx', function(d) {
