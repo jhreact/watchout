@@ -37,6 +37,7 @@ var _getNewPoints = function(numPoints) {
 var updateDots = function(coords)   {
   coords = coords || _getNewPoints();
   // BIND DATA
+  //
   var enemies = board.selectAll('circle.enemy').data(coords);
 
   // UPDATE
@@ -65,15 +66,25 @@ var updateDots = function(coords)   {
 
 updateDots();
 
+
+var dragMove = function(d) {
+  d3.select(this)
+    .attr('cx', d3.event.x)
+    .attr('cy', d3.event.y);
+};
+
+var drag = d3.behavior.drag()
+  .on('drag', dragMove);
+
 var player = board.append('circle')
   .attr('fill', 'red')
   .attr('class', 'playerDot')
   .attr('cx', Math.random() * window.innerWidth)
   .attr('cy', Math.random() * window.innerHeight)
-  .attr('r', 10);
+  .attr('r', 10)
+  .call(drag);
 
-
-
+// d3.select('.playerDot').call(drag);
 
 
 
