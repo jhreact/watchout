@@ -12,7 +12,7 @@
 var gameOptions = {
   width: 1900,
   height: 1500,
-  numPoints: 100,
+  numPoints: 10,
   scalingFactor: 1000
 };
 
@@ -34,9 +34,21 @@ var _getNewPoints = function(numPoints) {
 };
 
 
-var update = function(coords)   {
+var updateDots = function(coords)   {
   coords = coords || _getNewPoints();
-  var enemies = board.selectAll('circle').data(coords)
+  // BIND DATA
+  var enemies = board.selectAll('circle').data(coords);
+
+  // UPDATE
+  enemies.attr('cx', function(d) {
+      return d.x;
+    })
+    .attr('cy', function(d) {
+      return d.y;
+    })
+    .attr('r', 10);
+
+  // ENTER
   enemies.enter().append('circle')
     .attr('cx', function(d) {
       return d.x;
@@ -45,10 +57,12 @@ var update = function(coords)   {
       return d.y;
     })
     .attr('r', 10);
+  // debugger;
+  setTimeout(updateDots, 1000);
 };
 
+updateDots();
 
-update();
 
 
 
