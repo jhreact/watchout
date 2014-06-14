@@ -26,19 +26,24 @@ var _getFakeData = function () {
 
 
 
-var board = d3.select("body")
-  .append("svg")
-  .attr("width", gameOptions.width)
-  .attr("height", gameOptions.height);
+var board = d3.select('body')
+  .append('svg')
+  .attr('width', gameOptions.width)
+  .attr('height', gameOptions.height);
 
 
 var update = function(coords)   {
-  for (var i =0; i < coords.length; i++) {
-    var x = coords[i].x;
-    var y = coords[i].y;
-    var enemy = board.append("circle").attr("cx", x).attr("cy", y).attr("r", 10);
-  }
-
+  board.selectAll('circle')
+    .data(coords)
+    .enter()
+    .append('circle')
+    .attr('cx', function(d) {
+      return d.x;
+    })
+    .attr('cy', function(d) {
+      return d.y;
+    })
+    .attr('r', 10);
 };
 
 update(_getFakeData());
