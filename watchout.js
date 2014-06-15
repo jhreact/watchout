@@ -112,7 +112,10 @@ var detectCollisions = function() {
   });
 };
 
-
-
+var increaseScore = function() {
+  gameStats.currentScore++;
+  updateScore();
+};
+setInterval(increaseScore, 50);
 
 
