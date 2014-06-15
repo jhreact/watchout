@@ -1,7 +1,12 @@
+// TODO:
+// * add/update score
+// * make transition animations happen independently
+//   * may fix lack of detection enroute
 var gameOptions = {
   width: window.innerWidth,
   height: window.innerHeight,
   numPoints: 50,
+  duration: 1500,
   scalingFactor: 1000
 };
 
@@ -28,7 +33,7 @@ var updateHighScore = function() {
 	return d3.select('.high').text("High score: " + gameStats.highScore.toString());
 };
 
-var _getCoords = function(numPoints) {
+var generateCoordinates = function(numPoints) {
   var dataArray = [];
   numPoints = numPoints || gameOptions.numPoints;
   for (var i = 0; i < numPoints; i++) {
@@ -38,7 +43,7 @@ var _getCoords = function(numPoints) {
 	return dataArray;
 };
 
-var enemies = board.selectAll('circle.enemy').data(_getCoords())
+var enemies = board.selectAll('circle.enemy').data(generateCoordinates())
   .enter().append('circle')
   .attr('cx', function(d) { return d.x; })
   .attr('cy', function(d) { return d.y; })
@@ -47,10 +52,10 @@ var enemies = board.selectAll('circle.enemy').data(_getCoords())
   .attr('class', 'enemy');
 
 var move = function(coords) {
-  coords = coords || _getCoords();
+  coords = coords || generateCoordinates();
   enemies.data(coords)
     .transition()
-    .duration(1000)
+    .duration(gameOptions.duration)
     .attr('cx', function(d) { return d.x; })
     .attr('cy', function(d) { return d.y; });
   detectCollisions();
