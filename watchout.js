@@ -1,5 +1,4 @@
 // TODO:
-// * add/update score
 // * make transition animations happen independently
 //   * may fix lack of detection enroute
 var gameOptions = {
@@ -21,16 +20,18 @@ var board = d3.select('body').append('svg')
       .attr('height', gameOptions.height);
 
 //update the score
+var updateCollisions = function() {
+	return d3.select('.collisions').text('Collisions: ' + gameStats.collisions.toString());
+};
+
 var updateScore = function() {
-	return d3.select('.current').text("Score: " + gameStats.currentScore.toString());
+	return d3.select('.current').text('Score: ' + gameStats.currentScore.toString());
 };
 
 //update the high score
 var updateHighScore = function() {
-	if (gameStats.score > gameStats.bestScore) {
-		gameStats.bestScore = gameStats.score;
-	}
-	return d3.select('.high').text("High score: " + gameStats.highScore.toString());
+  gameStats.highScore = Math.max(gameStats.currentScore, gameStats.highScore);
+	return d3.select('.high').text('High score: ' + gameStats.highScore.toString());
 };
 
 var generateCoordinates = function(numPoints) {
@@ -107,7 +108,11 @@ var detectCollisions = function() {
     var playerY = player[0][0].cy.animVal.value;
     var playerR = player[0][0].r.animVal.value;
     if (intersects(enemyX, enemyY, enemyR, playerX, playerY, playerR)) {
-      alert("BAM SON!");
+      gameStats.collisions++;
+      updateCollisions();
+      updateHighScore();
+      gameStats.currentScore = 0;
+      updateScore();
     }
   });
 };
